@@ -5,7 +5,7 @@ const cors = require('cors');
 require('dotenv/config');
 
 const home = require('./routes/home');
-// const connectDB = require('./config/db');
+const connectDB = require('./config/db');
 
 const app = express();
 
@@ -15,7 +15,7 @@ app.use(cors());
 
 app.set('view engine', 'ejs');
 
-// connectDB();
+connectDB();
 
 // Routes
 app.use('/', home);

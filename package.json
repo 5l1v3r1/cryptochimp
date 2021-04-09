@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Crypto trading simulator",
   "main": "src/server.js",
+  "repository": "https://github.com/MaximilianHagelstam/cryptochimp.git",
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js"
