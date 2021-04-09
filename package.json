@@ -5,8 +5,8 @@
   "main": "src/server.js",
   "repository": "https://github.com/MaximilianHagelstam/cryptochimp.git",
   "scripts": {
-    "start": "export NODE_ENV=production && node src/server.js",
-    "dev": "export NODE_ENV=development && nodemon src/server.js"
+    "start": "set NODE_ENV=production&&node src/server.js",
+    "dev": "set NODE_ENV=development&&nodemon src/server.js"
   },
   "author": "Maximilian Hagelstam",
   "license": "MIT",
