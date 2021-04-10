@@ -1,5 +1,6 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('../models/User');
+const logger = require('../middlewares/logger');
 
 module.exports = (passport) => {
   passport.use(
@@ -26,7 +27,7 @@ module.exports = (passport) => {
             done(null, user);
           }
         } catch (err) {
-          console.error(err);
+          logger.error(`Passport config err: ${err}`);
         }
       },
     ),

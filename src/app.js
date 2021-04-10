@@ -7,7 +7,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 require('dotenv/config');
 
-const home = require('./routes/home');
+const index = require('./routes/index');
 const auth = require('./routes/auth');
 const connectDB = require('./config/db');
 require('./config/passport')(passport);
@@ -34,7 +34,7 @@ app.use(passport.session());
 app.use(express.urlencoded());
 
 // Routes
-app.use('/', home);
+app.use('/', index);
 app.use('/auth', auth);
 
 module.exports = app;

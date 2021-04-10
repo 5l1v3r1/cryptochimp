@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const logger = require('../middlewares/logger');
 
 const { MONGO_URI } = process.env;
 
@@ -10,10 +11,10 @@ const connectDB = () => {
       useFindAndModify: true,
     })
     .then(() => {
-      console.log('Connected to DB');
+      logger.info('Connected to DB');
     })
-    .catch((error) => {
-      throw new Error(error);
+    .catch((err) => {
+      logger.error(`DB connection error: ${err}`);
     });
 };
 
