@@ -1,6 +1,4 @@
 const express = require('express');
-const path = require('path');
-const favicon = require('serve-favicon');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -20,7 +18,7 @@ app.set('view engine', 'ejs');
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(express.static('public'));
 app.use(
   session({
     secret: 'keyboard cat',
