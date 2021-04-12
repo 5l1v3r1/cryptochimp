@@ -17,18 +17,22 @@
             </tr>
           </thead>
           <tbody>
-            <% let count = 0; %> <% coins.data.forEach(coin => { %> <% count++
-            %>
+            <% for (i = 0; i <= 10; i++) { %>
             <tr>
-              <th scope="row"><%= count %></th>
+              <th scope="row"><%= i %></th>
               <th>
-                <img src="<%= coin.logo_url %>" alt="" width="" height="24" />
+                <img
+                  src="<%= coins.data[i].logo_url %>"
+                  alt=""
+                  width="auto"
+                  height="24"
+                />
               </th>
-              <td><%= coin.name %></td>
-              <td><%= coin.symbol %></td>
-              <td><%= coin.price %></td>
+              <td><%= coins.data[i].name %></td>
+              <td><%= coins.data[i].symbol %></td>
+              <td><%= coins.data[i].price %></td>
             </tr>
-            <% }); %>
+            <% } %>
           </tbody>
         </table>
       </div>
