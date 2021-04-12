@@ -4,7 +4,7 @@ const logger = require('./middlewares/logger');
 const { PORT } = process.env || 3000;
 
 app.use((req, res) => {
-  res.status(404).send('Error - Page not found');
+  res.status(404).render('404', { title: 'Error' });
 });
 
 app.listen(PORT, () => {
