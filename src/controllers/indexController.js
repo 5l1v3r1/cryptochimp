@@ -7,8 +7,10 @@ const api = async (req, res) => {
   res.send(coinData);
 };
 
-const renderHomeView = (req, res) => {
-  res.render('index', { title: 'Home' });
+const renderHomeView = async (req, res) => {
+  const coinData = await coin.getAllCoinData();
+
+  res.render('index', { title: 'Home', coins: coinData });
 };
 
 const renderProfileView = (req, res) => {

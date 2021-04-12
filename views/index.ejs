@@ -14,41 +14,21 @@
               <th scope="col">Name</th>
               <th scope="col">Symbol</th>
               <th scope="col">Price</th>
-              <th scope="col">Ytd change</th>
             </tr>
           </thead>
           <tbody>
+            <% let count = 0; %> <% coins.data.forEach(coin => { %> <% count++
+            %>
             <tr>
-              <th scope="row">1</th>
+              <th scope="row"><%= count %></th>
               <th>
-                <img
-                  src="https://s3.us-east-2.amazonaws.com/nomics-api/static/images/currencies/btc.svg"
-                  alt=""
-                  width=""
-                  height="24"
-                />
+                <img src="<%= coin.logo_url %>" alt="" width="" height="24" />
               </th>
-              <td>Bitcoin</td>
-              <td>BTC</td>
-              <td>50 000€</td>
-              <td>43%</td>
+              <td><%= coin.name %></td>
+              <td><%= coin.symbol %></td>
+              <td><%= coin.price %></td>
             </tr>
-
-            <tr>
-              <th scope="row">2</th>
-              <th>
-                <img
-                  src="https://s3.us-east-2.amazonaws.com/nomics-api/static/images/currencies/eth.svg"
-                  alt=""
-                  width=""
-                  height="24"
-                />
-              </th>
-              <td>Etherium</td>
-              <td>ETH</td>
-              <td>10 000€</td>
-              <td>12%</td>
-            </tr>
+            <% }); %>
           </tbody>
         </table>
       </div>
