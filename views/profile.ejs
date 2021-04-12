@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+
+  <body>
+    <%- include("./partials/nav.ejs") %>
+    <main>
+      <div class="col-lg" style="text-align: center">
+        <br />
+
+        <img
+          class="bd-placeholder-img rounded-circle"
+          width="140"
+          height="140"
+          src="<%= profilePicture %>"
+          alt="Profile picture"
+        />
+
+        <br />
+        <br />
+
+        <h2><%= displayName %></h2>
+
+        <br />
+      </div>
+    </main>
+
+    <%- include("./partials/footer.ejs") %>
+  </body>
+</html>
