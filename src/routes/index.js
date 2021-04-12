@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.get('/', indexController.renderHomeView);
 router.get('/profile', indexController.renderProfileView);
+router.get('/about', indexController.renderAboutView);
 
 module.exports = router;
