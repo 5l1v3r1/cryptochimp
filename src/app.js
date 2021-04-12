@@ -7,6 +7,7 @@ require('dotenv/config');
 
 const index = require('./routes/index');
 const auth = require('./routes/auth');
+const trade = require('./routes/trade');
 const connectDB = require('./config/db');
 require('./config/passport')(passport);
 
@@ -18,7 +19,7 @@ app.set('view engine', 'ejs');
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.static('src/public'));
 app.use(
   session({
     secret: 'keyboard cat',
@@ -34,5 +35,6 @@ app.use(express.urlencoded());
 // Routes
 app.use('/', index);
 app.use('/auth', auth);
+app.use('/trade', trade);
 
 module.exports = app;

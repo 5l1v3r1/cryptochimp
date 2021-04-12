@@ -15,6 +15,26 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  purchases: [
+    {
+      symbol: {
+        type: String,
+        required: true,
+      },
+      coinPrice: {
+        type: Number,
+        required: true,
+      },
+      quantity: {
+        type: Number,
+        required: true,
+      },
+      totalPrice: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
 });
 
 module.exports = model('User', UserSchema);

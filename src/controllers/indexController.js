@@ -1,12 +1,6 @@
 const logger = require('../middlewares/logger');
 const coin = require('../services/crypto');
 
-const api = async (req, res) => {
-  const coinData = await coin.getCoinData('ETH', 'EUR');
-
-  res.send(coinData);
-};
-
 const renderHomeView = async (req, res) => {
   const coinData = await coin.getAllCoinData();
 
@@ -26,8 +20,12 @@ const renderProfileView = (req, res) => {
   }
 };
 
+const renderAboutView = (req, res) => {
+  res.render('about', { title: 'About' });
+};
+
 module.exports = {
   renderHomeView,
   renderProfileView,
-  api,
+  renderAboutView,
 };
