@@ -16,10 +16,6 @@
 
 Crypto Chimp is a crypto trading simulator. You can browse and trade crypto currencies to increase your in-game net worth and learn about the crypto currency market.
 
-## Screenshots
-
-![screenshot](screenshots/screenshot1.png)
-
 ## License
 
 Aura is [MIT licensed](./LICENSE).
