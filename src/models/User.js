@@ -17,22 +17,10 @@ const UserSchema = new Schema({
   },
   purchases: [
     {
-      symbol: {
-        type: String,
-        required: true,
-      },
-      coinPrice: {
-        type: Number,
-        required: true,
-      },
-      quantity: {
-        type: Number,
-        required: true,
-      },
-      totalPrice: {
-        type: Number,
-        required: true,
-      },
+      symbol: String,
+      coinPrice: Number,
+      quantity: Number,
+      totalPrice: Number,
     },
   ],
 });
