@@ -2,50 +2,45 @@
 <html lang="en">
   <%- include("../partials/head.ejs") %>
 
-  <body>
+  <body class="my-login-page">
     <%- include("../partials/nav.ejs") %>
-    <main class="center">
-      <div class="container">
-        <div class="row g-5">
-          <div class="col-md-7 col-lg-8">
-            <h4 class="mb-3">Sell crypto</h4>
-            <form class="needs-validation" novalidate="">
-              <div class="row gy-3">
-                <div class="col-md-3">
-                  <label for="cc-expiration" class="form-label">Symbol</label>
+
+    <section class="h-100">
+      <div class="container h-100">
+        <div class="row justify-content-md-center h-100">
+          <div class="card-wrapper">
+            <div class="card-body">
+              <h4 class="display-5 fw-bold">Sell</h4>
+              <form method="POST" class="my-login-validation" novalidate="">
+                <div class="mb-3">
+                  <label for="symbol" class="form-label">Symbol</label>
                   <input
                     type="text"
                     class="form-control"
-                    id="cc-expiration"
-                    placeholder=""
-                    required=""
+                    id="symbol"
+                    placeholder="BTC"
                   />
-                  <div class="invalid-feedback">Symbol required</div>
                 </div>
 
-                <div class="col-md-3">
-                  <label for="cc-cvv" class="form-label">Quantity</label>
+                <div class="mb-3">
+                  <label for="quantity" class="form-label">Quantity</label>
                   <input
                     type="text"
                     class="form-control"
-                    id="cc-cvv"
-                    placeholder=""
-                    required=""
+                    id="quantity"
+                    placeholder="5"
                   />
-                  <div class="invalid-feedback">Quantity required</div>
                 </div>
 
-                <hr class="my-4" />
-
-                <button class="w-100 btn btn-primary btn-lg" type="submit">
-                  Sell
-                </button>
-              </div>
-            </form>
+                <div class="form-group m-0">
+                  <button type="submit" class="btn btn-primary">Sell</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </main>
+    </section>
 
     <%- include("../partials/footer.ejs") %>
   </body>
