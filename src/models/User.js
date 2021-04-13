@@ -18,9 +18,7 @@ const UserSchema = new Schema({
   purchases: [
     {
       symbol: String,
-      coinPrice: Number,
       quantity: Number,
-      totalPrice: Number,
     },
   ],
 });

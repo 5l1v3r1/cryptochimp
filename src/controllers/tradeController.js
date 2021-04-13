@@ -1,4 +1,3 @@
-const coin = require('../services/crypto');
 const User = require('../models/User');
 const logger = require('../middlewares/logger');
 
@@ -10,9 +9,7 @@ const renderSellForm = async (req, res) => {
   res.render('trade/sell', { title: 'Sell' });
 };
 
-const buyCoin = async (req, res) => {
-  const coinData = await coin.getCoinData(req.body.symbol);
-
+const buyCoin = (req, res) => {
   User.updateOne(
     { googleId: req.user.googleId },
     {
@@ -20,19 +17,16 @@ const buyCoin = async (req, res) => {
         purchases: [
           {
             symbol: req.body.symbol,
-            coinPrice: coinData.price,
             quantity: req.body.quantity,
-            totalPrice: coinData.price * req.body.quantity,
           },
         ],
       },
     },
-    (err, result) => {
+    (err) => {
       if (err) {
         logger.error(err);
       } else {
         res.redirect('/portfolio');
-        logger.info(result);
       }
     },
   );
