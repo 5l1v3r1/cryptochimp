@@ -18,7 +18,7 @@ Crypto Chimp is a crypto trading simulator. You can browse and trade crypto curr
 
 ## Screenshots
 
-![architecture](screenshots/screenshot1.png)
+![architecture](./screenshots/screenshot1.png)
 
 ## License
 
