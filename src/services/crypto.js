@@ -27,10 +27,10 @@ const getCoinData = async (coinId) => {
   return coinData;
 };
 
-const getAllCoinData = async () => {
+const getAllCoins = async () => {
   const coinData = await axios.get(`${BASE_URL}?key=${API_KEY}`);
 
   return coinData;
 };
 
-module.exports = { getCoinData, getAllCoinData };
+module.exports = { getCoinData, getAllCoins };

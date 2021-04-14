@@ -10,26 +10,42 @@ const renderSellForm = async (req, res) => {
 };
 
 const buyCoin = (req, res) => {
-  User.updateOne(
-    { googleId: req.user.googleId },
-    {
-      $push: {
-        purchases: [
-          {
-            symbol: req.body.symbol,
-            quantity: req.body.quantity,
+  req.user.wallet.forEach((coin) => {
+    if (coin.symbol === req.body.symbol) {
+      User.updateOne(
+        { 'wallet.symbol': req.body.symbol, googleId: req.user.googleId },
+        { $inc: { 'wallet.$.quantity': req.body.quantity } },
+        (err) => {
+          if (err) {
+            logger.error(err);
+          } else {
+            res.redirect('/wallet');
+          }
+        },
+      );
+    } else {
+      User.updateOne(
+        { googleId: req.user.googleId },
+        {
+          $push: {
+            wallet: [
+              {
+                symbol: req.body.symbol,
+                quantity: req.body.quantity,
+              },
+            ],
           },
-        ],
-      },
-    },
-    (err) => {
-      if (err) {
-        logger.error(err);
-      } else {
-        res.redirect('/portfolio');
-      }
-    },
-  );
+        },
+        (err) => {
+          if (err) {
+            logger.error(err);
+          } else {
+            res.redirect('/wallet');
+          }
+        },
+      );
+    }
+  });
 };
 
 const sellCoin = async (req, res) => {

@@ -15,7 +15,7 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  purchases: [
+  wallet: [
     {
       symbol: String,
       quantity: Number,
