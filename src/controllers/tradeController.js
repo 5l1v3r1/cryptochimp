@@ -9,6 +9,7 @@ const renderSellForm = async (req, res) => {
   res.render('trade/sell', { title: 'Sell' });
 };
 
+// WARNING: don't touch, barely works. Also don't read for your own sake
 const buyCoin = (req, res) => {
   req.user.wallet.forEach((coin) => {
     if (coin.symbol === req.body.symbol) {
