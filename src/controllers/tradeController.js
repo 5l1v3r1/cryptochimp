@@ -37,7 +37,7 @@ const buyCoin = async (req, res) => {
 
   // Check if service doesn't find symbol
   if (price === undefined) {
-    res.send('Coin symbol not found');
+    res.redirect('/trade/buy');
     logger.info('Coin symbol not found');
   } else {
     // Calculate the price of the purchase
@@ -47,7 +47,7 @@ const buyCoin = async (req, res) => {
 
     // Check if user doesn't have enough cash
     if (newCash < 0) {
-      res.send('You dont have enough cash');
+      res.redirect('/trade/buy');
       logger.info('User dosent have enough cash to buy coins');
     } else {
       // Update cash value for signed in user
@@ -76,7 +76,7 @@ const sellCoin = async (req, res) => {
 
   // Check if service doesn't find symbol
   if (price === undefined) {
-    res.send('Could not find coin');
+    res.redirect('/trade/sell');
     logger.info('Coin symbol not found');
   } else {
     // Calculate the price of the coins user wants to sell
