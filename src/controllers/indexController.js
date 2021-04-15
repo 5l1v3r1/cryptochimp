@@ -5,7 +5,19 @@ const User = require('../models/User');
 const renderHomeView = async (req, res) => {
   const coinData = await crypto.getAllCoins();
 
-  res.render('index', { title: 'Home', coins: coinData });
+  let name;
+
+  if (req.user === undefined) {
+    name = 'guest';
+  } else {
+    name = req.user.displayName;
+  }
+
+  res.render('index', {
+    title: 'Home',
+    coins: coinData,
+    userName: name,
+  });
 };
 
 const renderProfileView = (req, res) => {
