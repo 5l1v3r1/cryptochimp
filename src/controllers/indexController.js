@@ -9,15 +9,14 @@ const renderHomeView = async (req, res) => {
 };
 
 const renderProfileView = (req, res) => {
-  try {
+  if (req.user === undefined) {
+    res.redirect('/auth/google');
+  } else {
     res.render('profile', {
       title: 'Profile',
       displayName: req.user.displayName,
       profilePicture: req.user.image,
     });
-  } catch (err) {
-    res.redirect('/auth/google');
-    logger.info('Not signed in, cant open profile');
   }
 };
 
@@ -26,13 +25,17 @@ const renderAboutView = (req, res) => {
 };
 
 const renderWalletView = (req, res) => {
-  User.find({ googleId: req.user.googleId })
-    .then((result) => {
-      res.render('wallet', { userData: result, title: 'Wallet' });
-    })
-    .catch((err) => {
-      logger.error(`Wallet failed: ${err}`);
-    });
+  if (req.user === undefined) {
+    res.redirect('/auth/google');
+  } else {
+    User.find({ googleId: req.user.googleId })
+      .then((result) => {
+        res.render('wallet', { userData: result, title: 'Wallet' });
+      })
+      .catch((err) => {
+        logger.error(`Wallet failed: ${err}`);
+      });
+  }
 };
 
 module.exports = {

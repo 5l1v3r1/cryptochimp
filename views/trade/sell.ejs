@@ -11,30 +11,38 @@
           <div class="card-wrapper">
             <div class="card-body">
               <h4 class="display-5 fw-bold">Sell</h4>
-              <form method="POST" class="my-login-validation" novalidate="">
+
+              <form
+                action="/trade/sell/post"
+                method="POST"
+                class="my-login-validation"
+              >
                 <div class="mb-3">
                   <label for="symbol" class="form-label">Symbol</label>
                   <input
                     type="text"
                     class="form-control"
                     id="symbol"
+                    name="symbol"
                     placeholder="BTC"
+                    required
                   />
                 </div>
 
                 <div class="mb-3">
                   <label for="quantity" class="form-label">Quantity</label>
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="quantity"
+                    name="quantity"
                     placeholder="5"
+                    min="1"
+                    required
                   />
                 </div>
 
-                <div class="form-group m-0">
-                  <button type="submit" class="btn btn-primary">Sell</button>
-                </div>
+                <button class="btn btn-primary">Sell</button>
               </form>
             </div>
           </div>
