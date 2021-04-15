@@ -22,10 +22,13 @@ const renderHomeView = async (req, res) => {
 };
 
 const renderProfileView = (req, res) => {
+  // Check is user is signed in
   if (req.user === undefined) {
+    // Open google Oauth
     res.redirect('/auth/google');
     logger.info('Redirected to /auth/google');
   } else {
+    // Render profile view with user data
     res.render('profile', {
       title: 'Profile',
       displayName: req.user.displayName,
@@ -41,12 +44,16 @@ const renderAboutView = (req, res) => {
 };
 
 const renderWalletView = (req, res) => {
+  // Check is user is signed in
   if (req.user === undefined) {
+    // Open google Oauth
     res.redirect('/auth/google');
     logger.info('Redirected to /auth/google');
   } else {
+    // Query the signed in user data from db
     User.find({ googleId: req.user.googleId })
       .then((result) => {
+        // Render wallet view with user data
         res.render('wallet', {
           title: 'Wallet',
           cash: Math.round(result[0].cash),
