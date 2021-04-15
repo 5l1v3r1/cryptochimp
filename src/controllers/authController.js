@@ -1,8 +1,8 @@
 const logger = require('../middlewares/logger');
 
 const authLogout = (req, res) => {
-  logger.info('Logging user out...');
   req.logout();
+  logger.info('User signed out');
   res.redirect('/');
 };
 

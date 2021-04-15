@@ -23,12 +23,14 @@ module.exports = (passport) => {
 
           if (user) {
             done(null, user);
+            logger.info('User signed in');
           } else {
             user = await User.create(newUser);
             done(null, user);
+            logger.info('New user signed up');
           }
         } catch (err) {
-          logger.error(`Passport config error: ${err}`);
+          logger.error(`Error creating or logging in user: ${err}`);
         }
       },
     ),

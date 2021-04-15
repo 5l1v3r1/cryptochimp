@@ -5,16 +5,20 @@ const crypto = require('../services/crypto');
 const renderBuyForm = (req, res) => {
   if (req.user === undefined) {
     res.redirect('/auth/google');
+    logger.info('Redirected to /auth/google');
   } else {
     res.render('trade/buy', { title: 'Buy' });
+    logger.info('Rendered buy view');
   }
 };
 
 const renderSellForm = (req, res) => {
   if (req.user === undefined) {
     res.redirect('/auth/google');
+    logger.info('Redirected to /auth/google');
   } else {
     res.render('trade/sell', { title: 'Sell' });
+    logger.info('Rendered sell view');
   }
 };
 
@@ -24,22 +28,25 @@ const buyCoin = async (req, res) => {
   const price = await crypto.getPrice(symbol.toUpperCase());
 
   if (price === undefined) {
-    req.flash('info', 'Coin not found');
+    res.send('Coin symbol not found');
+    logger.info('Coin symbol not found');
   } else {
     const totalPrice = price * quantity;
     const newCash = req.user.cash - totalPrice;
 
     if (newCash < 0) {
       res.send('You dont have enough cash');
+      logger.info('User dosent have enough cash to buy coins');
     } else {
       User.updateOne(
         { googleId: req.user.googleId },
         { cash: newCash },
         (err) => {
           if (err) {
-            logger.error(err);
+            logger.error(`Failed to update user cash: ${err}`);
           } else {
             res.redirect('/wallet');
+            logger.info('Redirected to /wallet');
           }
         },
       );
