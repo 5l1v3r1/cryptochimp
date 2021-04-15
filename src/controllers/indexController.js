@@ -30,10 +30,13 @@ const renderWalletView = (req, res) => {
   } else {
     User.find({ googleId: req.user.googleId })
       .then((result) => {
-        res.render('wallet', { userData: result, title: 'Wallet' });
+        res.render('wallet', {
+          title: 'Wallet',
+          cash: Math.round(result[0].cash),
+        });
       })
       .catch((err) => {
-        logger.error(`Wallet failed: ${err}`);
+        logger.error(`Failed rendering wallet: ${err}`);
       });
   }
 };

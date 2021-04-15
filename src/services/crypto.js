@@ -5,6 +5,8 @@ const BASE_URL = 'https://api.nomics.com/v1/currencies/ticker';
 const { API_KEY } = process.env;
 
 const getPrice = async (coinId) => {
+  logger.info('Getting crypto price data...');
+
   const res = await axios.get(
     `${BASE_URL}?key=${API_KEY}&ids=${coinId}&convert=EUR`,
   );
@@ -19,6 +21,8 @@ const getPrice = async (coinId) => {
 };
 
 const getAllCoins = async () => {
+  logger.info('Getting all crypto data...');
+
   const coinData = await axios.get(`${BASE_URL}?key=${API_KEY}`);
 
   return coinData;

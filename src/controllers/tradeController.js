@@ -24,7 +24,7 @@ const buyCoin = async (req, res) => {
   const price = await crypto.getPrice(symbol.toUpperCase());
 
   if (price === undefined) {
-    res.send('Could not find coin');
+    req.flash('info', 'Coin not found');
   } else {
     const totalPrice = price * quantity;
     const newCash = req.user.cash - totalPrice;

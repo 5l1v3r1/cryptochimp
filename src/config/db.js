@@ -4,6 +4,7 @@ const logger = require('../middlewares/logger');
 const { MONGO_URI } = process.env;
 
 const connectDB = () => {
+  logger.info('Connecting to database...');
   mongoose
     .connect(MONGO_URI, {
       useNewUrlParser: true,
@@ -11,10 +12,10 @@ const connectDB = () => {
       useFindAndModify: true,
     })
     .then(() => {
-      logger.info('Connected to DB');
+      logger.info('Connected to database');
     })
     .catch((err) => {
-      logger.error(`DB connection error: ${err}`);
+      logger.error(`Error connecting to database: ${err}`);
     });
 };
 
