@@ -1,7 +1,8 @@
 const User = require('../models/User');
 const logger = require('../middlewares/logger');
+const crypto = require('../services/crypto');
 
-const renderBuyForm = async (req, res) => {
+const renderBuyForm = (req, res) => {
   if (req.user === undefined) {
     res.redirect('/auth/google');
   } else {
@@ -9,7 +10,7 @@ const renderBuyForm = async (req, res) => {
   }
 };
 
-const renderSellForm = async (req, res) => {
+const renderSellForm = (req, res) => {
   if (req.user === undefined) {
     res.redirect('/auth/google');
   } else {
@@ -17,73 +18,58 @@ const renderSellForm = async (req, res) => {
   }
 };
 
-const buyCoin = (req, res) => {
-  // req.user.wallet.forEach((coin) => {
-  //   if (coin.symbol === req.body.symbol) {
-  //     User.updateOne(
-  //       { 'wallet.symbol': req.body.symbol, googleId: req.user.googleId },
-  //       { $inc: { 'wallet.$.quantity': req.body.quantity } },
-  //       (err) => {
-  //         if (err) {
-  //           logger.error(err);
-  //         } else {
-  //           res.redirect('/wallet');
-  //         }
-  //       },
-  //     );
-  //   } else {
-  //     User.updateOne(
-  //       { googleId: req.user.googleId },
-  //       {
-  //         $push: {
-  //           wallet: [
-  //             {
-  //               symbol: req.body.symbol,
-  //               quantity: req.body.quantity,
-  //             },
-  //           ],
-  //         },
-  //       },
-  //       (err) => {
-  //         if (err) {
-  //           logger.error(err);
-  //         } else {
-  //           res.redirect('/wallet');
-  //         }
-  //       },
-  //     );
-  //   }
-  // });
+const buyCoin = async (req, res) => {
+  const { symbol } = req.body;
+  const { quantity } = req.body;
+  const price = await crypto.getPrice(symbol.toUpperCase());
+
+  if (price === undefined) {
+    res.send('Could not find coin');
+  } else {
+    const totalPrice = price * quantity;
+    const newCash = req.user.cash - totalPrice;
+
+    if (newCash < 0) {
+      res.send('You dont have enough cash');
+    } else {
+      User.updateOne(
+        { googleId: req.user.googleId },
+        { cash: newCash },
+        (err) => {
+          if (err) {
+            logger.error(err);
+          } else {
+            res.redirect('/wallet');
+          }
+        },
+      );
+    }
+  }
 };
 
 const sellCoin = async (req, res) => {
-  // console.log('penis');
-  // let i = 0;
-  // req.user.wallet.forEach((coin) => {
-  //   // logger.info(coin.symbol);
-  //   logger.info(req.user.wallet[i].symbol);
-  //   if (coin.symbol === req.body.symbol) {
-  //     if (req.user.wallet[i].quantity === req.body.quantity) {
-  //       logger.info('Delete the bitch');
-  //     } else {
-  //       logger.info('Remove nicely from quantity');
-  //       // User.updateOne(
-  //       //   { 'wallet.symbol': req.body.symbol, googleId: req.user.googleId },
-  //       //   { $inc: { 'wallet.$.quantity': -Math.abs(req.body.quantity) } },
-  //       //   (err) => {
-  //       //     if (err) {
-  //       //       logger.error(err);
-  //       //     } else {
-  //       //       res.redirect('/wallet');
-  //       //     }
-  //       //   },
-  //       // );
-  //     }
-  //   } else {
-  //     i += 1;
-  //     logger.error('You dont have the coin you want to sell');
-  //   }
-  // });
+  const { symbol } = req.body;
+  const { quantity } = req.body;
+  const price = await crypto.getPrice(symbol.toUpperCase());
+
+  if (price === undefined) {
+    res.send('Could not find coin');
+  } else {
+    const totalPrice = price * quantity;
+    const newCash = req.user.cash + totalPrice;
+
+    User.updateOne(
+      { googleId: req.user.googleId },
+      { cash: newCash },
+      (err) => {
+        if (err) {
+          logger.error(err);
+        } else {
+          res.redirect('/wallet');
+        }
+      },
+    );
+  }
 };
 
 module.exports = {

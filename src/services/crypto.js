@@ -1,30 +1,21 @@
 const axios = require('axios');
+const logger = require('../middlewares/logger');
 
 const BASE_URL = 'https://api.nomics.com/v1/currencies/ticker';
 const { API_KEY } = process.env;
 
-const getCoinData = async (coinId) => {
-  const coinData = {
-    symbol: null,
-    name: null,
-    price: null,
-    logo: null,
-    ytdPriceChangePercentage: null,
-  };
-
+const getPrice = async (coinId) => {
   const res = await axios.get(
     `${BASE_URL}?key=${API_KEY}&ids=${coinId}&convert=EUR`,
   );
 
+  let price;
+
   res.data.forEach((coin) => {
-    coinData.symbol = coin.symbol;
-    coinData.name = coin.name;
-    coinData.price = coin.price;
-    coinData.logo = coin.logo_url;
-    coinData.ytdPriceChangePercentage = coin.ytd.price_change_pct;
+    price = coin.price;
   });
 
-  return coinData;
+  return price;
 };
 
 const getAllCoins = async () => {
@@ -33,4 +24,4 @@ const getAllCoins = async () => {
   return coinData;
 };
 
-module.exports = { getCoinData, getAllCoins };
+module.exports = { getPrice, getAllCoins };

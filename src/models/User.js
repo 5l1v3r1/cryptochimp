@@ -15,6 +15,10 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  cash: {
+    type: Number,
+    required: true,
+  },
   wallet: [
     {
       symbol: String,
