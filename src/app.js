@@ -8,6 +8,7 @@ require('dotenv/config');
 const index = require('./routes/index');
 const auth = require('./routes/auth');
 const trade = require('./routes/trade');
+const browse = require('./routes/browse');
 const connectDB = require('./config/db');
 require('./config/passport')(passport);
 
@@ -36,5 +37,6 @@ app.use(express.urlencoded());
 app.use('/', index);
 app.use('/auth', auth);
 app.use('/trade', trade);
+app.use('/browse', browse);
 
 module.exports = app;

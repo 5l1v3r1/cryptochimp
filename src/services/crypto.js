@@ -22,13 +22,15 @@ const getPrice = async (coinId) => {
   return price;
 };
 
-const getAllCoins = async () => {
+const getAllCoins = async (perPage, page) => {
   logger.info('Getting all crypto data...');
 
-  // Get nomics API
-  const coinData = await axios.get(`${BASE_URL}?key=${API_KEY}`);
+  // Get nomics API with page and per page parameters
+  const res = await axios.get(
+    `${BASE_URL}?key=${API_KEY}&convert=EUR&per-page=${perPage}&page=${page}`,
+  );
 
-  return coinData;
+  return res;
 };
 
 module.exports = { getPrice, getAllCoins };

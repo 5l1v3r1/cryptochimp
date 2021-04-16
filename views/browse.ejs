@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+
+  <body>
+    <%- include("./partials/nav.ejs") %>
+    <main>
+      <div class="container">
+        <h4 class="display-5 fw-bold">Cryptocurrencies</h4>
+
+        <br />
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Logo</th>
+              <th scope="col">Name</th>
+              <th scope="col">Symbol</th>
+              <th scope="col">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Show 10 coins -->
+            <% coins.data.forEach(coin => { %>
+            <tr>
+              <th scope="row"><%= coin.rank %></th>
+              <th>
+                <img
+                  src="<%= coin.logo_url %>"
+                  alt=""
+                  width="auto"
+                  height="24"
+                />
+              </th>
+              <td><%= coin.name %></td>
+              <td><%= coin.symbol %></td>
+              <td><%= coin.price %></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+
+        <% if (current === 1) { %>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" aria-label="Previous" tabindex="-1">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/browse/1">1</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/browse/2">2</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/browse/3">3</a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1">...</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/browse/58">58</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/browse/<%= next %>" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <% } else if (current === 58) { %>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item">
+              <a
+                class="page-link"
+                href="/browse/<%= previous %>"
+                aria-label="Previous"
+              >
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/browse/1">1</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/browse/2">2</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/browse/3">3</a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1">...</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/browse/58">58</a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link" href="#" aria-label="Next" tabindex="-1">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <% } else { %>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item">
+              <a
+                class="page-link"
+                href="/browse/<%= previous %>"
+                aria-label="Previous"
+              >
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/browse/1">1</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/browse/2">2</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/browse/3">3</a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1">...</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/browse/58">58</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/browse/<%= next %>" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <% } %>
+      </div>
+    </main>
+
+    <%- include("./partials/footer.ejs") %>
+  </body>
+</html>

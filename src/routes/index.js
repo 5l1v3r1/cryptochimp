@@ -3,7 +3,7 @@ const indexController = require('../controllers/indexController');
 
 const router = express.Router();
 
-router.get('/', indexController.renderHomeView);
+router.get('/', indexController.redirectFromHome);
 router.get('/profile', indexController.renderProfileView);
 router.get('/about', indexController.renderAboutView);
 router.get('/wallet', indexController.renderWalletView);

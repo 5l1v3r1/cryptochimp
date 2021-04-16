@@ -1,24 +1,17 @@
 const logger = require('../middlewares/logger');
-const crypto = require('../services/crypto');
 const User = require('../models/User');
 
-const renderHomeView = async (req, res) => {
-  const coinData = await crypto.getAllCoins();
-
-  let name;
-
+const redirectFromHome = (req, res) => {
+  // Check is user is signed in
   if (req.user === undefined) {
-    name = 'guest';
+    // Show first page of crypto data table
+    res.redirect('/browse/1');
+    logger.info('Redirected to /browse/1');
   } else {
-    name = req.user.displayName;
+    // Redirect to users wallet
+    res.redirect('/wallet');
+    logger.info('Redirected to /wallet');
   }
-
-  res.render('index', {
-    title: 'Home',
-    coins: coinData,
-    userName: name,
-  });
-  logger.info('Rendered home view');
 };
 
 const renderProfileView = (req, res) => {
@@ -67,7 +60,7 @@ const renderWalletView = (req, res) => {
 };
 
 module.exports = {
-  renderHomeView,
+  redirectFromHome,
   renderProfileView,
   renderAboutView,
   renderWalletView,
