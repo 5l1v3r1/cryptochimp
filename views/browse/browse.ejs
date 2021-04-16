@@ -15,14 +15,19 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Logo</th>
-              <th scope="col">Name</th>
               <th scope="col">Symbol</th>
+              <th scope="col">Name</th>
               <th scope="col">Price</th>
+              <th scope="col">1d price</th>
             </tr>
           </thead>
           <tbody>
-            <!-- Show 10 coins -->
+            <!-- Show all coins -->
             <% coins.data.forEach(coin => { %>
+            <!-- Convert price change decimal to percentage -->
+            <% const priceChange = coin["1d"].price_change_pct * 100 %>
+            <!-- Round price change percentage to two decimal places -->
+            <% const roundedPriceChange =priceChange.toFixed(2)%>
             <tr>
               <th scope="row"><%= coin.rank %></th>
               <th>
@@ -33,14 +38,16 @@
                   height="24"
                 />
               </th>
-              <td><%= coin.name %></td>
               <td><%= coin.symbol %></td>
-              <td><%= coin.price %></td>
+              <td><%= coin.name %></td>
+              <td><%= coin.price %>€</td>
+              <td><%= roundedPriceChange %>%</td>
             </tr>
             <% }); %>
           </tbody>
         </table>
 
+        <!-- If first page: disable previous button -->
         <% if (current === 1) { %>
         <nav aria-label="Page navigation example">
           <ul class="pagination">
@@ -71,6 +78,7 @@
             </li>
           </ul>
         </nav>
+        <!-- If last page: disable next button -->
         <% } else if (current === 58) { %>
         <nav aria-label="Page navigation example">
           <ul class="pagination">
@@ -105,7 +113,7 @@
             </li>
           </ul>
         </nav>
-
+        <!-- Else: show both -->
         <% } else { %>
         <nav aria-label="Page navigation example">
           <ul class="pagination">
