@@ -10,14 +10,14 @@ const showCryptoData = async (req, res) => {
 
   const coinData = await crypto.getAllCoins(rowsPerPage, req.params.page);
 
-  res.render('browse', {
+  res.render('browse/browse', {
     title: 'Browse',
     coins: coinData,
     next: nextPage,
     previous: previousPage,
     current: currentPage,
   });
-  logger.info('Rendered home view');
+  logger.info('Rendered browse view');
 };
 
 module.exports = {
