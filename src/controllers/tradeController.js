@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const logger = require('../middlewares/logger');
 const crypto = require('../services/crypto');
+const wallet = require('../services/wallet');
 
 const renderBuyForm = (req, res) => {
   // Check is user is signed in
@@ -29,40 +30,25 @@ const renderSellForm = (req, res) => {
 };
 
 const buyCoin = async (req, res) => {
-  const { symbol } = req.body;
+  let { symbol } = req.body;
+  symbol = symbol.toUpperCase();
   const { quantity } = req.body;
+  const { googleId } = req.user;
 
-  // Get price data from crypto service
-  const price = await crypto.getPrice(symbol.toUpperCase());
+  const price = await crypto.getPrice(symbol);
+  const totalPrice = price * quantity;
+  const newCash = req.user.cash - totalPrice;
 
-  // Check if service doesn't find symbol
-  if (price === undefined) {
+  // Check if symbol exists or if
+  if (!price || newCash < 0) {
     res.redirect('/trade/buy');
-    logger.info('Coin symbol not found');
+    logger.info('Symbol not found or not enough cash');
   } else {
-    // Calculate the price of the purchase
-    const totalPrice = price * quantity;
-    // Subtract purchase price from cash
-    const newCash = req.user.cash - totalPrice;
-
-    // Check if user doesn't have enough cash
-    if (newCash < 0) {
-      res.redirect('/trade/buy');
-      logger.info('User dosent have enough cash to buy coins');
+    // Check if coin already exists in wallet
+    if (req.user.wallet.some((data) => data.symbol === symbol)) {
+      wallet.buyExistingCoin(res, googleId, symbol, quantity);
     } else {
-      // Update cash value for signed in user
-      User.updateOne(
-        { googleId: req.user.googleId },
-        { cash: newCash },
-        (err) => {
-          if (err) {
-            logger.error(`Failed to update user cash: ${err}`);
-          } else {
-            res.redirect('/wallet');
-            logger.info('Redirected to /wallet');
-          }
-        },
-      );
+      wallet.buyNewCoin(res, googleId, symbol, quantity);
     }
   }
 };
