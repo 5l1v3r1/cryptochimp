@@ -7,10 +7,10 @@ const { API_KEY } = process.env;
 const getPrice = async (coinId) => {
   logger.info('Getting crypto price data...');
 
+  const URL = `${BASE_URL}?key=${API_KEY}&ids=${coinId}&convert=EUR`;
+
   // Get nomics API with coinId parameter
-  const res = await axios.get(
-    `${BASE_URL}?key=${API_KEY}&ids=${coinId}&convert=EUR`,
-  );
+  const res = await axios.get(URL);
 
   let price;
 
@@ -25,10 +25,10 @@ const getPrice = async (coinId) => {
 const getAllCoins = async (perPage, page) => {
   logger.info('Getting all crypto data...');
 
+  const URL = `${BASE_URL}?key=${API_KEY}&convert=EUR&per-page=${perPage}&page=${page}`;
+
   // Get nomics API with page and per page parameters
-  const res = await axios.get(
-    `${BASE_URL}?key=${API_KEY}&convert=EUR&per-page=${perPage}&page=${page}`,
-  );
+  const res = await axios.get(URL);
 
   return res;
 };

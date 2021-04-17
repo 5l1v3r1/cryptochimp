@@ -26,10 +26,12 @@
             %> <% let roundedPrice; %>
             <!-- Show all coins -->
             <% coins.data.forEach(coin => { %>
-            <!-- Convert price change decimal to percentage and round to two decimal points -->
+            <!-- Round price change -->
             <% priceChange = coin["1d"].price_change_pct * 100 %> <%
-            roundedPriceChange = priceChange.toFixed(2) %> <% price =
-            Number(coin.price) %> <% roundedPrice = price.toFixed(2) %>
+            roundedPriceChange = priceChange.toFixed(2)%>
+            <!-- Round price -->
+            <% price = Number(coin.price) %> <% roundedPrice = price.toFixed(2)
+            %>
             <tr>
               <th scope="row"><%= coin.rank %></th>
               <th>
@@ -48,7 +50,6 @@
               <td style="color: #fd6e70"><%= roundedPriceChange %>%</td>
               <% } else {%>
               <td style="color: #3fcc6f"><%= roundedPriceChange %>%</td>
-
               <% } %>
             </tr>
             <% }); %>
