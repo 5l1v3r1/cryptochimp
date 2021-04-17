@@ -5,7 +5,7 @@ const wallet = require('../services/wallet');
 
 const renderBuyForm = (req, res) => {
   // Check is user is signed in
-  if (req.user === undefined) {
+  if (!req.user) {
     // Open google Oauth
     res.redirect('/auth/google');
   } else {
@@ -17,7 +17,7 @@ const renderBuyForm = (req, res) => {
 
 const renderSellForm = (req, res) => {
   // Check is user is signed in
-  if (req.user === undefined) {
+  if (!req.user) {
     // Open google Oauth
     res.redirect('/auth/google');
   } else {

@@ -16,7 +16,7 @@ const getPrice = async (coinId) => {
 
   // Update price with API response
   res.data.forEach((coin) => {
-    price = coin.price;
+    price = Number(coin.price).toFixed(2);
   });
 
   return price;

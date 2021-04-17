@@ -1,9 +1,8 @@
 const logger = require('../middlewares/logger');
-const User = require('../models/User');
 
 const redirectFromHome = (req, res) => {
   // Check is user is signed in
-  if (req.user === undefined) {
+  if (!req.user) {
     // Show first page of crypto data table
     res.redirect('/browse/1');
   } else {
@@ -14,7 +13,7 @@ const redirectFromHome = (req, res) => {
 
 const renderProfileView = (req, res) => {
   // Check is user is signed in
-  if (req.user === undefined) {
+  if (!req.user) {
     // Open google Oauth
     res.redirect('/auth/google');
   } else {
@@ -35,23 +34,11 @@ const renderAboutView = (req, res) => {
 
 const renderWalletView = (req, res) => {
   // Check is user is signed in
-  if (req.user === undefined) {
+  if (!req.user) {
     // Open google Oauth
     res.redirect('/auth/google');
   } else {
-    // Query the signed in user data from db
-    User.find({ googleId: req.user.googleId })
-      .then((result) => {
-        // Render wallet view with user data
-        res.render('wallet', {
-          title: 'Wallet',
-          cash: Math.round(result[0].cash),
-        });
-        logger.info('Sent wallet.html');
-      })
-      .catch((err) => {
-        logger.error(err);
-      });
+    res.render('wallet', { title: 'Wallet', user: req.user });
   }
 };
 

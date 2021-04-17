@@ -6,26 +6,49 @@
     <%- include("./partials/nav.ejs") %>
     <main>
       <div class="container">
-        <h4 class="display-5 fw-bold">Wallet</h4>
+        <h4 class="display-5 fw-bold"><%= user.displayName %>'s wallet</h4>
 
         <br />
+
+        <h6 class="display-6 fw-bold">Cash</h6>
 
         <!-- Bootstrap box thing -->
         <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
           <div class="col">
             <div class="card mb-4 rounded-3 shadow-sm">
-              <div class="card-header py-3">
-                <h4 class="my-0 fw-normal">Cash</h4>
-              </div>
               <div class="card-body">
                 <!-- Show user cash amout -->
                 <h1 class="card-title pricing-card-title">
-                  <%= cash %><small class="text-muted fw-light">€</small>
+                  <small class="text-muted fw-light"><%= user.cash %>€</small>
                 </h1>
               </div>
             </div>
           </div>
         </div>
+
+        <h6 class="display-6 fw-bold">Owned coins</h6>
+
+        <!-- Table -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Symbol</th>
+              <th scope="col">Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% let counter = 1; %>
+            <!-- Show coins in wallet -->
+            <% user.wallet.forEach(coin => { %>
+            <tr>
+              <th scope="row"><%= counter %></th>
+              <td><%= coin.symbol %></td>
+              <td><%= coin.quantity %></td>
+            </tr>
+            <% counter++ %> <% }); %>
+          </tbody>
+        </table>
       </div>
     </main>
 
