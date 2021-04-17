@@ -8,11 +8,10 @@ const renderBuyForm = (req, res) => {
   if (req.user === undefined) {
     // Open google Oauth
     res.redirect('/auth/google');
-    logger.info('Redirected to /auth/google');
   } else {
     // Render buy view
     res.render('trade/buy', { title: 'Buy' });
-    logger.info('Rendered buy view');
+    logger.info('Sent buy.html');
   }
 };
 
@@ -21,11 +20,10 @@ const renderSellForm = (req, res) => {
   if (req.user === undefined) {
     // Open google Oauth
     res.redirect('/auth/google');
-    logger.info('Redirected to /auth/google');
   } else {
     // Render sell view
     res.render('trade/sell', { title: 'Sell' });
-    logger.info('Rendered sell view');
+    logger.info('Sent sell.html');
   }
 };
 
@@ -35,6 +33,7 @@ const buyCoin = async (req, res) => {
   const { quantity } = req.body;
   const { googleId } = req.user;
 
+  // newCash is coin price times quantity subtracted from users cash
   const price = await crypto.getPrice(symbol);
   const totalPrice = price * quantity;
   const newCash = req.user.cash - totalPrice;
@@ -42,7 +41,7 @@ const buyCoin = async (req, res) => {
   // if symbol dosen't exists
   if (!price || newCash < 0) {
     res.redirect('/trade/buy');
-    logger.info('Symbol not found or not enough cash');
+    logger.info('Symbol not found/not enough cash');
   } else if (req.user.wallet.some((data) => data.symbol === symbol)) {
     // If coin already exists in wallet
     wallet.buyExistingCoin(res, googleId, symbol, quantity);

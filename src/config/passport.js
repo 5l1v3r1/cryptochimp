@@ -15,7 +15,7 @@ module.exports = (passport) => {
           googleId: profile.id,
           displayName: profile.displayName,
           image: profile.photos[0].value,
-          cash: 100000,
+          cash: 10000,
         };
 
         try {
@@ -30,7 +30,7 @@ module.exports = (passport) => {
             logger.info('New user signed up');
           }
         } catch (err) {
-          logger.error(`Error creating or logging in user: ${err}`);
+          logger.error(err);
         }
       },
     ),

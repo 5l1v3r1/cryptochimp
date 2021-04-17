@@ -4,7 +4,6 @@ const logger = require('../middlewares/logger');
 const { MONGO_URI } = process.env;
 
 const connectDB = () => {
-  logger.info('Connecting to database...');
   mongoose
     .connect(MONGO_URI, {
       useNewUrlParser: true,

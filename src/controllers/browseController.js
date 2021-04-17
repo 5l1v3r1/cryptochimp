@@ -17,7 +17,7 @@ const showCryptoData = async (req, res) => {
     previous: previousPage,
     current: currentPage,
   });
-  logger.info('Rendered browse view');
+  logger.info('Sent browse.html');
 };
 
 module.exports = {

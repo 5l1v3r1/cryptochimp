@@ -2,17 +2,18 @@ const User = require('../models/User');
 const logger = require('../middlewares/logger');
 
 const updateCash = (res, userId, newCash) => {
+  logger.info('Updating user cash...');
   User.updateOne({ googleId: userId }, { cash: newCash }, (err) => {
     if (err) {
-      logger.error(`Failed to update user cash: ${err}`);
+      logger.error(err);
     } else {
       res.redirect('/wallet');
-      logger.info('Redirected to /wallet');
     }
   });
 };
 
 const buyNewCoin = (res, userId, coinSymbol, coinQuantity) => {
+  logger.info('Buying a new coin...');
   User.updateOne(
     { googleId: userId },
     {
@@ -27,19 +28,21 @@ const buyNewCoin = (res, userId, coinSymbol, coinQuantity) => {
     },
     (err) => {
       if (err) {
-        logger.error('Error adding coin to wallet');
+        logger.error(err);
       }
     },
   );
 };
 
 const buyExistingCoin = (res, userId, coinSymbol, coinQuantity) => {
+  logger.info('Buying existing coin...');
+
   User.updateOne(
     { 'wallet.symbol': coinSymbol, googleId: userId },
     { $inc: { 'wallet.$.quantity': coinQuantity } },
     (err) => {
       if (err) {
-        logger.error('Error updating coin quantity');
+        logger.error(err);
       }
     },
   );
