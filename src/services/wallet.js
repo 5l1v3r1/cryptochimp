@@ -28,8 +28,6 @@ const buyNewCoin = (res, userId, coinSymbol, coinQuantity) => {
     (err) => {
       if (err) {
         logger.error('Error adding coin to wallet');
-      } else {
-        res.redirect('/wallet');
       }
     },
   );
@@ -42,8 +40,6 @@ const buyExistingCoin = (res, userId, coinSymbol, coinQuantity) => {
     (err) => {
       if (err) {
         logger.error('Error updating coin quantity');
-      } else {
-        res.redirect('/wallet');
       }
     },
   );
