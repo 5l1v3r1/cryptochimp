@@ -43,11 +43,11 @@ const buyCoin = async (req, res) => {
     logger.info('Symbol not found/not enough cash');
   } else if (req.user.wallet.some((data) => data.symbol === symbol)) {
     // If coin already exists in wallet
-    wallet.buyExistingCoin(res, googleId, symbol, quantity);
+    wallet.updateQuantity(res, googleId, symbol, quantity);
     wallet.updateCash(res, googleId, newCash);
   } else {
     // If user dosen't yet have coin
-    wallet.buyNewCoin(res, googleId, symbol, quantity);
+    wallet.addCoin(res, googleId, symbol, quantity);
     wallet.updateCash(res, googleId, newCash);
   }
 };
@@ -57,6 +57,7 @@ const sellCoin = async (req, res) => {
   symbol = symbol.toUpperCase();
   const { quantity } = req.body;
   const { googleId } = req.user;
+  const sellingQuantity = -Math.abs(quantity);
 
   // newCash is coin price times quantity added to users cash
   const price = await crypto.getPrice(symbol);
@@ -68,9 +69,10 @@ const sellCoin = async (req, res) => {
       (data) => data.symbol === symbol && data.quantity >= quantity,
     )
   ) {
-    logger.info('Yeah yeah');
+    wallet.updateQuantity(res, googleId, symbol, sellingQuantity);
+    wallet.updateCash(res, googleId, newCash);
   } else {
-    res.redirect('/auth/google');
+    res.redirect('/trade/sell');
   }
 };
 

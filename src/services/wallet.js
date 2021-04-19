@@ -1,19 +1,8 @@
 const User = require('../models/User');
 const logger = require('../middlewares/logger');
 
-const updateCash = (res, userId, newCash) => {
-  logger.info('Updating user cash...');
-  User.updateOne({ googleId: userId }, { cash: newCash }, (err) => {
-    if (err) {
-      logger.error(err);
-    } else {
-      res.redirect('/wallet');
-    }
-  });
-};
-
-const buyNewCoin = (res, userId, coinSymbol, coinQuantity) => {
-  logger.info('Buying a new coin...');
+const addCoin = (res, userId, coinSymbol, coinQuantity) => {
+  logger.info('Adding a new coin...');
   User.updateOne(
     { googleId: userId },
     {
@@ -34,26 +23,12 @@ const buyNewCoin = (res, userId, coinSymbol, coinQuantity) => {
   );
 };
 
-const buyExistingCoin = (res, userId, coinSymbol, coinQuantity) => {
-  logger.info('Buying existing coin...');
-
-  User.updateOne(
-    { 'wallet.symbol': coinSymbol, googleId: userId },
-    { $inc: { 'wallet.$.quantity': coinQuantity } },
-    (err) => {
-      if (err) {
-        logger.error(err);
-      }
-    },
-  );
-};
-
-const sellAllCoin = (res, userId, coinSymbol, coinQuantity) => {
+const removeCoin = (res, userId, coinSymbol, coinQuantity) => {
   // If selling quantity === owning quantity
   // Pull elemnt from array
   // Else subtract selling from owning quantity
 
-  logger.info('Selling all coins...');
+  logger.info('Removeing a coin...');
   User.updateOne(
     { googleId: userId },
     {
@@ -74,9 +49,36 @@ const sellAllCoin = (res, userId, coinSymbol, coinQuantity) => {
   );
 };
 
+const updateQuantity = (res, userId, coinSymbol, coinQuantity) => {
+  logger.info('Updating coin quantity...');
+
+  User.updateOne(
+    { 'wallet.symbol': coinSymbol, googleId: userId },
+    { $inc: { 'wallet.$.quantity': coinQuantity } },
+    (err, result) => {
+      if (err) {
+        logger.error(err);
+      } else {
+        logger.info(result);
+      }
+    },
+  );
+};
+
+const updateCash = (res, userId, newCash) => {
+  logger.info('Updating user cash...');
+  User.updateOne({ googleId: userId }, { cash: newCash }, (err) => {
+    if (err) {
+      logger.error(err);
+    } else {
+      res.redirect('/wallet');
+    }
+  });
+};
+
 module.exports = {
   updateCash,
-  buyNewCoin,
-  buyExistingCoin,
-  sellAllCoin,
+  addCoin,
+  removeCoin,
+  updateQuantity,
 };
