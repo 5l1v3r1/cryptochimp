@@ -1,4 +1,3 @@
-const User = require('../models/User');
 const logger = require('../middlewares/logger');
 const crypto = require('../services/crypto');
 const wallet = require('../services/wallet');
@@ -54,34 +53,24 @@ const buyCoin = async (req, res) => {
 };
 
 const sellCoin = async (req, res) => {
-  const { symbol } = req.body;
+  let { symbol } = req.body;
+  symbol = symbol.toUpperCase();
   const { quantity } = req.body;
+  const { googleId } = req.user;
 
-  // Get price data from crypto service
-  const price = await crypto.getPrice(symbol.toUpperCase());
+  // newCash is coin price times quantity added to users cash
+  const price = await crypto.getPrice(symbol);
+  const totalPrice = price * quantity;
+  const newCash = req.user.cash + totalPrice;
 
-  // Check if service doesn't find symbol
-  if (price === undefined) {
-    res.redirect('/trade/sell');
-    logger.info('Coin symbol not found');
+  if (
+    req.user.wallet.some(
+      (data) => data.symbol === symbol && data.quantity >= quantity,
+    )
+  ) {
+    logger.info('Yeah yeah');
   } else {
-    // Calculate the price of the coins user wants to sell
-    const totalPrice = price * quantity;
-    // Add users coins price to user cash
-    const newCash = req.user.cash + totalPrice;
-
-    // Update cash value for signed in user
-    User.updateOne(
-      { googleId: req.user.googleId },
-      { cash: newCash },
-      (err) => {
-        if (err) {
-          logger.error(err);
-        } else {
-          res.redirect('/wallet');
-        }
-      },
-    );
+    res.redirect('/auth/google');
   }
 };
 

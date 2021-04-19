@@ -48,8 +48,35 @@ const buyExistingCoin = (res, userId, coinSymbol, coinQuantity) => {
   );
 };
 
+const sellAllCoin = (res, userId, coinSymbol, coinQuantity) => {
+  // If selling quantity === owning quantity
+  // Pull elemnt from array
+  // Else subtract selling from owning quantity
+
+  logger.info('Selling all coins...');
+  User.updateOne(
+    { googleId: userId },
+    {
+      $pull: {
+        wallet: [
+          {
+            symbol: coinSymbol,
+            quantity: coinQuantity,
+          },
+        ],
+      },
+    },
+    (err) => {
+      if (err) {
+        logger.error(err);
+      }
+    },
+  );
+};
+
 module.exports = {
   updateCash,
   buyNewCoin,
   buyExistingCoin,
+  sellAllCoin,
 };
