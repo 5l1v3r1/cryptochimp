@@ -29,7 +29,8 @@ const renderSellForm = (req, res) => {
 const buyCoin = async (req, res) => {
   let { symbol } = req.body;
   symbol = symbol.toUpperCase();
-  const { quantity } = req.body;
+  let { quantity } = req.body;
+  quantity = Number(quantity);
   const { googleId } = req.user;
 
   // newCash is coin price times quantity subtracted from users cash
@@ -43,11 +44,11 @@ const buyCoin = async (req, res) => {
     logger.info('Symbol not found/not enough cash');
   } else if (req.user.wallet.some((data) => data.symbol === symbol)) {
     // If coin already exists in wallet
-    wallet.updateQuantity(res, googleId, symbol, quantity);
+    wallet.updateQuantity(googleId, symbol, quantity);
     wallet.updateCash(res, googleId, newCash);
   } else {
     // If user dosen't yet have coin
-    wallet.addCoin(res, googleId, symbol, quantity);
+    wallet.addCoin(googleId, symbol, quantity);
     wallet.updateCash(res, googleId, newCash);
   }
 };
@@ -55,7 +56,8 @@ const buyCoin = async (req, res) => {
 const sellCoin = async (req, res) => {
   let { symbol } = req.body;
   symbol = symbol.toUpperCase();
-  const { quantity } = req.body;
+  let { quantity } = req.body;
+  quantity = Number(quantity);
   const { googleId } = req.user;
   const sellingQuantity = -Math.abs(quantity);
 
@@ -66,10 +68,19 @@ const sellCoin = async (req, res) => {
 
   if (
     req.user.wallet.some(
-      (data) => data.symbol === symbol && data.quantity >= quantity,
+      (data) => data.symbol === symbol && data.quantity > quantity,
     )
   ) {
-    wallet.updateQuantity(res, googleId, symbol, sellingQuantity);
+    // if user has more coins than he wants to sell
+    wallet.updateQuantity(googleId, symbol, sellingQuantity);
+    wallet.updateCash(res, googleId, newCash);
+  } else if (
+    req.user.wallet.some(
+      (data) => data.symbol === symbol && data.quantity === quantity,
+    )
+  ) {
+    // if user wants to sell as many coins as they have
+    wallet.removeCoin(googleId, symbol);
     wallet.updateCash(res, googleId, newCash);
   } else {
     res.redirect('/trade/sell');
