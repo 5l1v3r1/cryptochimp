@@ -13,7 +13,6 @@ router.get(
     res.redirect('/profile');
   },
 );
-
 router.get('/logout', authController.authLogout);
 
 module.exports = router;

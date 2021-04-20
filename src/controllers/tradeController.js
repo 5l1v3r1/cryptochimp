@@ -5,24 +5,18 @@ const wallet = require('../services/wallet');
 const renderBuyForm = (req, res) => {
   // Check is user is signed in
   if (!req.user) {
-    // Open google Oauth
     res.redirect('/auth/google');
   } else {
-    // Render buy view
     res.render('trade/buy', { title: 'Buy' });
-    logger.info('Sent buy.html');
   }
 };
 
 const renderSellForm = (req, res) => {
   // Check is user is signed in
   if (!req.user) {
-    // Open google Oauth
     res.redirect('/auth/google');
   } else {
-    // Render sell view
     res.render('trade/sell', { title: 'Sell' });
-    logger.info('Sent sell.html');
   }
 };
 
@@ -38,11 +32,13 @@ const buyCoin = async (req, res) => {
   const totalPrice = price * quantity;
   const newCash = req.user.cash - totalPrice;
 
-  // if symbol dosen't exists
+  const userOwnsCoin = req.user.wallet.some((data) => data.symbol === symbol);
+
+  // if symbol dosen't exists or not enough cash
   if (!price || newCash < 0) {
     res.redirect('/trade/buy');
     logger.info('Symbol not found/not enough cash');
-  } else if (req.user.wallet.some((data) => data.symbol === symbol)) {
+  } else if (userOwnsCoin) {
     // If coin already exists in wallet
     wallet.updateQuantity(googleId, symbol, quantity);
     wallet.updateCash(res, googleId, newCash);
@@ -66,20 +62,17 @@ const sellCoin = async (req, res) => {
   const totalPrice = price * quantity;
   const newCash = req.user.cash + totalPrice;
 
-  if (
-    req.user.wallet.some(
-      (data) => data.symbol === symbol && data.quantity > quantity,
-    )
-  ) {
-    // if user has more coins than he wants to sell
+  const userSellsSomeCoins = req.user.wallet.some(
+    (data) => data.symbol === symbol && data.quantity > quantity,
+  );
+  const userSellsAllCoins = req.user.wallet.some(
+    (data) => data.symbol === symbol && data.quantity === quantity,
+  );
+
+  if (userSellsSomeCoins) {
     wallet.updateQuantity(googleId, symbol, sellingQuantity);
     wallet.updateCash(res, googleId, newCash);
-  } else if (
-    req.user.wallet.some(
-      (data) => data.symbol === symbol && data.quantity === quantity,
-    )
-  ) {
-    // if user wants to sell as many coins as they have
+  } else if (userSellsAllCoins) {
     wallet.removeCoin(googleId, symbol);
     wallet.updateCash(res, googleId, newCash);
   } else {

@@ -30,7 +30,7 @@ module.exports = (passport) => {
             logger.info('New user signed up');
           }
         } catch (err) {
-          logger.error(err);
+          logger.error(`Error authenticating user: ${err}`);
         }
       },
     ),

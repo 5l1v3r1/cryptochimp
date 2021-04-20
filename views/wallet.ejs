@@ -19,7 +19,9 @@
               <div class="card-body">
                 <!-- Show user cash amout -->
                 <h1 class="card-title pricing-card-title">
-                  <small class="text-muted fw-light"><%= user.cash %>€</small>
+                  <!-- Round cash to two decimal points-->
+                  <% let cash = user.cash %> <% cash = cash.toFixed(2) %>
+                  <small class="text-muted fw-light"><%= cash %>€</small>
                 </h1>
               </div>
             </div>

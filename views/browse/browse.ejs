@@ -24,7 +24,7 @@
           <tbody>
             <% let priceChange; %> <% let roundedPriceChange; %> <% let price;
             %> <% let roundedPrice; %>
-            <!-- Show all coins -->
+            <!-- Loop throuhg all coins -->
             <% coins.data.forEach(coin => { %>
             <!-- Round price change -->
             <% priceChange = coin["1d"].price_change_pct * 100 %> <%

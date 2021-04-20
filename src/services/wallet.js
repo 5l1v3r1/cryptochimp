@@ -3,6 +3,7 @@ const logger = require('../middlewares/logger');
 
 const addCoin = (userId, coinSymbol, coinQuantity) => {
   logger.info('Adding a new coin...');
+
   User.updateOne(
     { googleId: userId },
     {
@@ -17,7 +18,7 @@ const addCoin = (userId, coinSymbol, coinQuantity) => {
     },
     (err) => {
       if (err) {
-        logger.error(err);
+        logger.error(`Error adding coin: ${err}`);
       }
     },
   );
@@ -25,6 +26,7 @@ const addCoin = (userId, coinSymbol, coinQuantity) => {
 
 const removeCoin = (userId, coinSymbol) => {
   logger.info('Removeing a coin...');
+
   User.updateOne(
     { googleId: userId },
     {
@@ -35,7 +37,7 @@ const removeCoin = (userId, coinSymbol) => {
     { safe: true },
     (err) => {
       if (err) {
-        logger.error(err);
+        logger.error(`Error removing coin: ${err}`);
       }
     },
   );
@@ -49,7 +51,7 @@ const updateQuantity = (userId, coinSymbol, coinQuantity) => {
     { $inc: { 'wallet.$.quantity': coinQuantity } },
     (err) => {
       if (err) {
-        logger.error(err);
+        logger.error(`Error updating coin quantity: ${err}`);
       }
     },
   );
@@ -57,9 +59,10 @@ const updateQuantity = (userId, coinSymbol, coinQuantity) => {
 
 const updateCash = (res, userId, newCash) => {
   logger.info('Updating user cash...');
+
   User.updateOne({ googleId: userId }, { cash: newCash }, (err) => {
     if (err) {
-      logger.error(err);
+      logger.error(`Error updating cash: ${err}`);
     } else {
       res.redirect('/wallet');
     }

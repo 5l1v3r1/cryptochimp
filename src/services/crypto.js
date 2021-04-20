@@ -8,15 +8,12 @@ const getPrice = async (coinId) => {
   logger.info('Getting crypto price data...');
 
   const URL = `${BASE_URL}?key=${API_KEY}&ids=${coinId}&convert=EUR`;
-
-  // Get nomics API with coinId parameter
-  const res = await axios.get(URL);
-
   let price;
 
-  // Update price with API response
+  const res = await axios.get(URL);
+
   res.data.forEach((coin) => {
-    price = Number(coin.price).toFixed(2);
+    price = Number(coin.price);
   });
 
   return price;
@@ -27,7 +24,6 @@ const getAllCoins = async (perPage, page) => {
 
   const URL = `${BASE_URL}?key=${API_KEY}&convert=EUR&per-page=${perPage}&page=${page}`;
 
-  // Get nomics API with page and per page parameters
   const res = await axios.get(URL);
 
   return res;
