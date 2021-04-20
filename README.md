@@ -1,4 +1,4 @@
-<p align="center"><a href="#" target="_blank" rel="noopener noreferrer"><img width="180" src="logo.png" alt="Crypto Chimp logo"></a></p>
+<p align="center"><a href="https://cryptochimp.herokuapp.com/" target="_blank" rel="noopener noreferrer"><img width="180" src="logo.png" alt="Crypto Chimp logo"></a></p>
 
 <p align="center">
     <a href="https://github.com/MaximilianHagelstam/cryptochimp/stargazers">
